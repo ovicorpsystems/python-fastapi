@@ -26,7 +26,7 @@ jobs:
           pip install pytest
 
       - name: Run unit tests
-        run: pytest --cov=./ --cov-report=xml --doctest-modules
+        run: pytest --cov=./test --cov-report=xml --doctest-modules
 
       - name: SonarCloud analysis
         uses: sonarsource/sonarcloud-github-action@master
