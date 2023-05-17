@@ -43,13 +43,13 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t my-docker-image .
+          docker build -t python-fastapi .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker tag my-docker-image ${{ secrets.DOCKER_REGISTRY }}/my-docker-image
-          docker push ${{ secrets.DOCKER_REGISTRY }}/my-docker-image
+          docker tag python-fastapi ${{ secrets.DOCKER_REGISTRY }}/python-fastapi
+          docker push ${{ secrets.DOCKER_REGISTRY }}/python-fastapi
 
       - name: Save Docker image artifact
         uses: actions/upload-artifact@v2
         with:
           name: docker-image
-          path: ${{ secrets.DOCKER_REGISTRY }}/my-docker-image
+          path: ${{ secrets.DOCKER_REGISTRY }}/python-fastapi
