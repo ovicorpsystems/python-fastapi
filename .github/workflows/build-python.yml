@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Set sonar properties
+        run: |
+          SONAR_PROJECT_KEY=${GITHUB_REPOSITORY/\//_}
+          echo -e "sonar.projectKey=$SONAR_PROJECT_KEY \nsonar.organization=ovicorpsystems" > sonar-project.properties
+          cat sonar-project.properties
 
       - name: Set up Python
         uses: actions/setup-python@v2
