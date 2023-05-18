@@ -1,4 +1,4 @@
-name: Python CI
+name: Python CI/
 on:
   push:
     branches:
@@ -20,12 +20,12 @@ jobs:
           echo -e "sonar.projectKey=$SONAR_PROJECT_KEY \nsonar.organization=ovicorpsystems" > sonar-project.properties
           cat sonar-project.properties
 
-      - name: Set up Python
+      - name: Setup Python Version
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
 
-      - name: Install dependencies
+      - name: Install Python dependencies and Pytest
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
@@ -41,15 +41,28 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Login to Docker Hub
+##      - name: Login to Own Docker Hub
+##        uses: docker/login-action@v1
+##        with:
+##          username: ${{ secrets.DOCKER_USERNAME }}
+##          password: ${{ secrets.DOCKER_PASSWORD }}
+
+##      - name: Build and push Docker image in Docker hub
+##        uses: docker/build-push-action@v2
+##        with:
+##          context: .
+##          push: true
+##          tags: ${{ secrets.DOCKER_USERNAME }}/python-fastapi:${{ github.sha }}
+## save dentro de GitHub's Docker registry          
+
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Tag Docker image for GitHub Container Registry
+        run: docker tag python-fastapi ghcr.io/${{ github.repository_owner }}/python-fastapi:${{ github.sha }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/python-fastapi:${{ github.sha }}
+      - name: Push Docker image to GitHub Container Registry
+        run: docker push ghcr.io/${{ github.repository_owner }}/python-fastapi:${{ github.sha }}
