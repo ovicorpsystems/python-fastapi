@@ -50,13 +50,13 @@ jobs:
       - name: Build and push Docker python image in Docker hub
         uses: docker/build-push-action@v2
         with:
-          context: .Dockerfile-python
+          context: ./Dockerfile-python
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/python-fastapi:${{ github.sha }}
 
       - name: Build and push Docker mysql image in Docker hub
         uses: docker/build-push-action@v2
         with:
-          context: .Dockerfile-mysql
+          context: ./Dockerfile-mysql
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/mysql-test:${{ github.sha }}          
