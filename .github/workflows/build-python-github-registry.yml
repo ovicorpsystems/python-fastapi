@@ -36,7 +36,7 @@ jobs:
         run: pytest --cov=./test --cov-report=xml --doctest-modules
 
       - name: Configure Docker credentials
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.repository_owner }} --password-stdin
+        run: echo "${{ secrets.GITHU_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.repository_owner }} --password-stdin
       
       - name: Build and publish Docker image
         run: |
