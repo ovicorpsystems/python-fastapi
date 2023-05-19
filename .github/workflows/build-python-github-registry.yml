@@ -40,8 +40,6 @@ jobs:
       
       - name: Build and publish Docker image
         run: |
-          docker build -t ${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }} .
+          docker build -t ${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }} -f ${{ github.workspace }}/Dockerfile-python .
           docker push ${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
-        with:
-          context: .
-          file: ./Dockerfile-python          
+
