@@ -39,10 +39,9 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.repository_owner }} --password-stdin
       
       - name: Build and publish Docker image
-        with:
-          context: .
-          file: ./Dockerfile-python
-          push: true     
         run: |
           docker build -t ${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }} .
           docker push ${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
+        with:
+          context: .
+          file: ./Dockerfile-python          
