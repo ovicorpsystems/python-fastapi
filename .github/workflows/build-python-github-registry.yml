@@ -37,6 +37,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHU_TOKEN }}
           run: |
-            docker build . --tag ghcr.io/ovicorpsystems/env.PYTHON_IMAGE_NAME:${{ github.sha }}
-            docker run ghcr.io/ovicorpsystems/env.PYTHON_IMAGE_NAME:${{ github.sha }}
-            docker push ghcr.io/ovicorpsystems/env.PYTHON_IMAGE_NAME:${{ github.sha }}
+            docker build . --tag ghcr.io/ovicorpsystems/python-fastapi:latest
+            docker run ghcr.io/ovicorpsystems/python-fastapi:latest
+            docker push ghcr.io/ovicorpsystems/python-fastapi:latest
