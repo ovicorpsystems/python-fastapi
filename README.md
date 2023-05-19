@@ -8,3 +8,8 @@
 `python -m unittest discover tests`
 ## Compilar Docker
 `docker build -t devco/fast-api-example:latest .`
+
+## Compilar Docker-Compose
+docker-compose build 
+## Ejecutar Docker-Compose
+docker-compose up
