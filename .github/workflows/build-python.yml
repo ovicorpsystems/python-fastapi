@@ -41,35 +41,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-##      - name: Login to Own Docker Hub
-##        uses: docker/login-action@v1
-##        with:
-##          username: ${{ secrets.DOCKER_USERNAME }}
-##          password: ${{ secrets.DOCKER_PASSWORD }}
-
-##      - name: Build and push Docker image in Docker hub
-##        uses: docker/build-push-action@v2
-##        with:
-##          context: .
-##          push: true
-##          tags: ${{ secrets.DOCKER_USERNAME }}/python-fastapi:${{ github.sha }}
-## save dentro de GitHub's Docker registry          
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Build Docker image
-        run: |
-          docker build -t python-fastapi .
-          docker run --name my-container python-fastapi echo "Docker image built"
-
-      - name: Login to GitHub Container Registry
+      - name: Login to Own Docker Hub
         uses: docker/login-action@v1
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Tag Docker image for GitHub Container Registry
-        run: docker tag python-fastapi ghcr.io/${{ github.repository_owner }}/python-fastapi:${{ github.sha }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Push Docker image to GitHub Container Registry
-        run: docker push ghcr.io/${{ github.repository_owner }}/python-fastapi:${{ github.sha }}
+      - name: Build and push Docker image in Docker hub
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/python-fastapi:${{ github.sha }}
