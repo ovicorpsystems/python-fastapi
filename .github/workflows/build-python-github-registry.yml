@@ -35,13 +35,10 @@ jobs:
       - name: Run unit tests
         run: pytest --cov=./test --cov-report=xml --doctest-modules
 
+      - name: Configure Docker credentials
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.repository_owner }} --password-stdin
+      
       - name: Build and publish Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile-python
-          push: true
-          tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
-        env:
-          DOCKER_USERNAME: ${{ github.repository_owner }}
-          DOCKER_PASSWORD: ${{ secrets.GITHU_TOKEN }}
+        run: |
+          docker build -t ${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }} .
+          docker push ${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
